@@ -1,0 +1,476 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+
+.feature {
+  padding: 0px;
+  margin-top: 30px;
+  width: 100%
+  position: absolute;
+  left: 6%;
+  margin-left: -100px;
+
+}
+
+.featureMenor {
+  padding: 0px;
+  margin-top: 30px;
+  width: 100%
+  position: absolute;
+  left: 6%;
+  margin-left: -100px;
+
+}
+
+.feature span {
+  font-size: 5em;
+    color: #016cc7;
+}
+
+.featureMenor span {
+  font-size: 5em;
+    color: #016cc7;
+}
+
+.speaker .feature {
+  width: 18%;
+  -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+
+    margin-right: 10px;
+    margin-left: 0px;
+    border: 1px solid #ff606c;
+    border-radius: 5px;
+
+}
+
+.speaker .featureMenor {
+  width: 18%;
+  -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+
+    margin-right: 10px;
+    margin-left: 0px;
+    border: 1px solid #00AEAA;
+    border-radius: 5px;
+
+}
+
+.speaker .feature:hover {
+    box-shadow: 3px 3px 10px #ff606c;
+    transform: translateY(-10px);
+    text-decoration:none;
+}
+
+.speaker .featureMenor:hover {
+    box-shadow: 3px 3px 10px #00AEAA;
+    transform: translateY(-10px);
+}
+
+.speaker-img {
+  max-width: 100%;
+  margin-top: 10px;
+    border: 4px solid #efefef;
+    border-radius: 10%;
+}
+
+
+
+
+</style>
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="2018-tab" data-toggle="tab" href="#2018" role="tab" aria-controls="2018" aria-selected="true">2018</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="2017-tab" data-toggle="tab" href="#2017" role="tab" aria-controls="2017" aria-selected="false">2017</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="2016-tab" data-toggle="tab" href="#2016" role="tab" aria-controls="contact" aria-selected="false">2016</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="2018" role="tabpanel" aria-labelledby="2018-tab">
+
+
+<div class="container">
+<div class="row pt-3 justify-content-center">
+
+<div class="col-6">
+  <p style="color:white; font-weight:bold; font-size:22px">Crédito Total</p>
+  <br>
+  <p style="color:#00AEAA; font-weight:bold; font-size:22px"> R$ {{creditosTotaisFormatado}}
+</p>
+
+</div>
+<div class="col-6 ">
+  <p style="color:white; font-weight:bold; font-size:22px">Gasto Total</p>
+    <br>
+    <p style="color:#ff606c; font-weight:bold; font-size:22px"> R$ {{gastosTotaisFormatado}} </p>
+  </p>
+</div>
+</div>
+
+
+
+  <div id="usoCotaGeral" style="min-width: 310px; max-width: 100%; height: 400px; margin: 0 auto"></div>
+  <div id="gastosPorCategoria" style="min-width: 310px; max-width: 100%; height: 400px; margin: 0 auto"></div>
+  <div id="totalGastosMensais" style="min-width: 310px; max-width: 100%; height: 400px; margin: 0 auto"></div>
+
+</div>
+
+
+
+<div class="container-fluid" style="padding:50px; background-color:#2D2D2E">
+
+<div class="row pt-3 border border-danger">
+<div class="col-12">
+<span style="color:#ff606c; font-size:30px">Vereadores com Maiores Gastos</span>
+<div class="row me-row content-ct speaker" id="speakers">
+{% for a,b in topVereadoresHome.items %}
+<a href="{% url 'perfil'  a %}" style="text-decoration:none">
+            <div class="col-md-2 col-sm-4 feature ">
+            <img src="https://cdn4.vectorstock.com/i/thumb-large/21/98/male-profile-picture-vector-1862198.jpg" class="speaker-img">
+            <div class="span12">
+            <p style="color:white;font-size:18px">{{a}}</p>
+            </div>
+            <div class="span12">
+            <p style="color:#ff606c;font-size:20px">{{b}}</p>
+            </div>
+
+            </a>
+          </div>
+          {% endfor %}
+</div>
+</div>
+</div>
+
+
+
+<div class="row pt-3 border border-info">
+<div class="col-12">
+<span style="color:#00AEAA; font-size:30px">Vereadores com Menores Gastos</span>
+<div class="row me-row content-ct speaker" id="speakers">
+{% for a,b in topVereadoresMenoresGastosHome.items %}
+<a href="{% url 'perfil'  a %}" style="text-decoration:none">
+            <div class="col-md-2 col-sm-4 featureMenor ">
+            <img src="https://cdn4.vectorstock.com/i/thumb-large/21/98/male-profile-picture-vector-1862198.jpg" class="speaker-img">
+            <div class="span12">
+            <p style="color:white;font-size:18px">{{a}}</p>
+            </div>
+            <div class="span12">
+            <p style="color:#00AEAA;font-size:20px">{{b}}</p>
+            </div>
+
+            </a>
+          </div>
+          {% endfor %}
+</div>
+</div>
+</div>
+
+</div>
+<!-- <div class="col-2" onclick="windows.location='{% url 'perfil'  'ABOU_ANNI' %}'">-->
+
+<div class="container-fluid border border-warning pt-3"
+<div class="row pt-3 ">
+<div class="col-12">
+<p style="color:white"> Ver Todos </p>
+</div>
+</div>
+
+
+
+</div>
+<div class="tab-pane fade" id="2017" role="tabpanel" aria-labelledby="2017-tab">...</div>
+<div class="tab-pane fade" id="2016" role="tabpanel" aria-labelledby="2016-tab">...</div>
+
+
+</div>
+
+<!-- inicio uso da cota geral -->
+  <script>
+  Highcharts.chart('usoCotaGeral', {
+    chart: {
+      margin: [0, 0, 0, 0],
+      plotBackgroundColor: '#2D2D2E',
+      plotBorderWidth: 0,
+      //plotBorderColor: '#2A2A2B',
+      plotShadow: false
+    },
+    title: {
+      text: '<span style="color:white; font-size:30px">Uso Geral da</span><br><span style="color:white; font-size:30px"> Cota</span>',
+      align: 'center',
+      verticalAlign: 'middle',
+      style: {
+        color: 'white'
+    },
+      y: 40
+    },
+    tooltip: {
+      shared: true,
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+      backgroundColor: 'rgba(0, 0, 0, 1)',
+      style: {
+               color: '#CCCCCC',
+               fontSize: '14px',
+           }
+    },
+
+    plotOptions: {
+
+      pie: {
+        size: 490,
+        dataLabels: {
+          enabled: true,
+          distance: -50,
+
+          style: {
+            fontWeight: 'bold',
+            color: 'white',
+            fontSize:'20px',
+
+          }
+        },
+        startAngle: -90,
+        endAngle: 90,
+        center: ['50%', '75%'],
+        borderWidth: 0,
+      }
+    },
+    series: [{
+      type: 'pie',
+      name: 'Percentual',
+      innerSize: '57%',
+      data: [
+        ['Usado:<br>{{percentualGeralUsado}}%', {{percentualGeralUsado}}],
+        ['Poupado:<br>{{percentualGeralDisponivel}}%', {{ percentualGeralDisponivel}} ],
+
+      ], colors: ['#ff606c', '#00AEAA']
+    }]
+  });
+
+
+  </script>
+
+
+
+
+
+  <script>
+  Highcharts.chart('gastosPorCategoria', {
+    chart: {
+      type: 'bar',
+      backgroundColor: '#2D2D2E',
+
+
+    },
+
+    tooltip: {
+
+
+   },
+
+    title: {
+      text: '<span style="color:white; font-size:30px">Categorias com Maiores Gastos</span>'
+    },
+    subtitle: {
+      text: ''
+    },
+    xAxis: {
+      categories: [
+      {% for a in topCategoriasHome %}
+
+      '{{a}}',
+      {% endfor %}
+    ],
+      title: {
+        text: null
+      },
+
+      labels: {
+        style: //labels em Y
+                {
+                  color: 'darkgray',
+                  fontSize:'16px',
+                  fontWeight: 'bold'
+                },
+              },
+
+
+
+    },
+    yAxis: {
+      min: 0,
+      tickPixelInterval: 230,
+      title: {
+        text: 'Valor gasto',
+        align: 'high',
+        style:
+                {
+                  color: 'darkgray',
+                  fontSize:'19px',
+                  //fontWeight: 'bold'
+                },
+      },
+      labels: {
+        overflow: 'justify',
+          style:
+                  {
+                    color: 'darkgray',
+                    fontSize:'13px',
+                    //fontWeight: 'bold'
+                  },
+
+      }
+    },
+    tooltip: {
+      shared: true,
+      valuePrefix: 'R$ ',
+      valueSuffix: ',00',
+      backgroundColor: 'rgba(0, 0, 0, 1)',
+      style: {
+               color: '#CCCCCC',
+               fontSize: '18px',
+           }
+    },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          enabled: true,
+          color: 'white',
+          format: 'R$ {point.y:,.0f},00',
+          style: {
+            fontSize: '19px',
+          }
+        },
+
+        borderWidth: 0,
+
+      },
+      series: {
+        stacking: 'normal',
+        pointWidth: 20,
+
+      }
+
+    },
+
+    credits: {
+      enabled: false
+    },
+    series: [
+    {
+    name: '<span style="color:#ff657f; font-size:14px">Total Gasto</span>',
+    data: [
+      {% for a in topCategoriasHomeValues %}
+
+      {{a}},
+      {% endfor %},
+
+    ],
+    lineColor:'#FF657F',
+    color: '#FF657F'
+    },
+
+
+  ]
+  });
+
+  </script>
+
+
+
+
+  <script>
+  Highcharts.chart('totalGastosMensais', {
+
+    rangeSelector: {
+            floating: true,
+            y: -65,
+            verticalAlign: 'bottom'
+        },
+    chart: {
+      type: 'line',
+      backgroundColor: '#2D2D2E',
+    },
+    title: {
+      text: '<span style="color:white; font-size:30px">Gastos Mensais</span>',
+
+    },
+    subtitle: {
+      text: ''//'<span style="color:white; font-size:14px">{{vereadorPretty}}</span>'
+    },
+    xAxis: {
+      categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+      labels: {
+        style:
+                {
+                  color: 'white',
+                  fontSize:'16px'
+                },
+              },
+
+
+    },
+    yAxis: {
+      title: {
+        text: 'Valor Gasto',},
+        style:
+                  {
+                    color: 'white',
+                    fontSize:'16px'
+                  },
+        labels: {style:
+                  {
+                    color: 'white',
+                    fontSize:'16px'
+                  },
+                  formatter: function () {
+                    return this.value;
+                  }
+                }
+
+    },
+
+    tooltip: {
+     shared: true,
+     valuePrefix: 'R$ ',
+     valueSuffix: ',00',
+     backgroundColor: 'rgba(0, 0, 0, 1)',
+     style: {
+              color: '#CCCCCC',
+              fontSize: '14px',
+          }
+
+   },
+
+
+    plotOptions: {
+
+    },
+
+    series: [
+    {
+    name: '<span style="color:#FF657F; font-size:14px">Gasto</span>',
+    type: "areaspline",
+    data: {{totalGastosMensaisHome}},
+    lineColor:'#FF657F',
+    fillColor: "rgba(255, 101, 127, 0.4)",
+    color: '#FF657F'
+  },
+
+
+
+  ]
+  });
+  </script>
+
+
+{% endblock %}

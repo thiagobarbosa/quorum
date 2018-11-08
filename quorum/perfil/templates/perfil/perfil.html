@@ -1,0 +1,341 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% load humanize %}
+
+
+<div class="container">
+<div class="row pt-3 justify-content-center">
+<div class="col-6">
+  <p style="color:white; font-weight:bold; font-size:22px">Crédito Total</p>
+  <br>
+  <p style="color:#00AEAA; font-weight:bold; font-size:22px"> R$ {{creditosVereador|floatformat:2|intcomma}}
+</p>
+
+</div>
+<div class="col-6 ">
+  <p style="color:white; font-weight:bold; font-size:22px">Gasto Total</p>
+    <br>
+    <p style="color:#ff606c; font-weight:bold; font-size:22px"> R$ {{gastosVereador|floatformat:2|intcomma}}</p>
+  </p>
+</div>
+</div>
+</div>
+
+
+<div class="row pt-3">
+
+<div class="col-2">
+<p style="color:white; font-weight:bold">{{vereadorPretty}}</p>
+</div>
+
+
+
+
+<div class="col-10">
+<div id="usoCota" style="min-width: 310px; max-width: 1200px; height: 400px; margin: 0 auto"></div>
+<br>
+<div id="gastosMensais" style="min-width: 310px; max-width: 1200px; height: 400px; margin: 0 auto"></div>
+<br>
+<div id="gastosPorCategoria" style="min-width: 310px; max-width: 100%; height:calc(100% - {{keyTotalDeCategoriasVereador}}px); margin: 0 auto"></div>
+<br>
+</div>
+</div>
+
+
+==  <br>
+++
+
+<!-- inicio uso da cota -->
+  <script>
+  Highcharts.chart('usoCota', {
+    chart: {
+      plotBackgroundColor: '#2D2D2E',
+      plotBorderWidth: 30,
+      plotBorderColor: '#2D2D2E',
+      plotShadow: false
+    },
+    title: {
+      text: '<span style="color:white; font-size:20px">Uso da<br>Cota</span>',
+      align: 'center',
+      verticalAlign: 'middle',
+      style: {
+        color: 'white'
+    },
+      y: 40
+    },
+    tooltip: {
+      shared: true,
+      //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+      valueSuffix: '%',
+      backgroundColor: 'rgba(0, 0, 0, 1)',
+      style: {
+               color: '#CCCCCC',
+               fontSize: '14px',
+           }
+    },
+
+
+    plotOptions: {
+      pie: {
+        dataLabels: {
+          enabled: true,
+          distance: -50,
+          style: {
+            fontWeight: 'bold',
+            color: 'white',
+            fontSize:'14px',
+          }
+        },
+        startAngle: -90,
+        endAngle: 90,
+        center: ['50%', '75%'],
+        borderWidth: 0,
+      }
+    },
+    series: [{
+      type: 'pie',
+      name: 'Percentual',
+      innerSize: '50%',
+      data: [
+        ['Usado: {{usoCotaVereador}}%', {{usoCotaVereador}}],
+        ['Poupado: {{ cotaDisponivel}}%', {{ cotaDisponivel}} ],
+
+      ], colors: ['#ff606c', '#00AEAA']
+    }]
+  });
+
+
+  </script>
+
+
+
+<script>
+Highcharts.chart('gastosMensais', {
+  chart: {
+    type: 'line',
+    backgroundColor: '#2D2D2E',
+  },
+  title: {
+    text: '<span style="color:white; font-size:30px">Gastos Mensais</span>',
+
+  },
+  subtitle: {
+    text: ''//'<span style="color:white; font-size:14px">{{vereadorPretty}}</span>'
+  },
+  xAxis: {
+    categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+    labels: {
+      style:
+              {
+                color: 'white',
+                fontSize:'16px'
+              },
+            },
+
+
+  },
+  yAxis: {
+    title: {
+      text: 'Valor Gasto',},
+      style:
+                {
+                  color: 'white',
+                  fontSize:'16px'
+                },
+      labels: {style:
+                {
+                  color: 'white',
+                  fontSize:'16px'
+                }
+              }
+
+  },
+
+  tooltip: {
+   shared: true,
+   valuePrefix: 'R$ ',
+   valueSuffix: ',00',
+   backgroundColor: 'rgba(0, 0, 0, 1)',
+   style: {
+            color: '#CCCCCC',
+            fontSize: '14px',
+        }
+
+ },
+
+
+  plotOptions: {
+
+  },
+
+  series: [
+  {
+  name: '<span style="color:#00AEAA; font-size:14px">Média</span>',
+  type: "areaspline",
+  data: {{mediaGastosMensaisGeral}},
+  lineColor:'#00AEAA',
+  fillColor: "rgba(0, 174, 170, 0.4)",
+  color: '#00AEAA'
+},
+
+{
+name: '<span style="color:#FF657F; font-size:14px">{{vereadorPretty}}</span>',
+type: "areaspline",
+data: {{gastosMensaisVereador}},
+lineColor:'#FF657F',
+fillColor: "rgba(255, 101, 127, 0.4)",
+color: '#FF657F'
+
+
+},
+
+]
+});
+</script>
+
+
+
+
+
+<script>
+Highcharts.chart('gastosPorCategoria', {
+  chart: {
+    type: 'bar',
+    backgroundColor: '#2D2D2E',
+
+
+  },
+
+  tooltip: {
+
+
+ },
+
+  title: {
+    text: '<span style="color:white; font-size:30px">Gastos por Categoria</span>'
+  },
+  subtitle: {
+    text: ''
+  },
+  xAxis: {
+    categories: [
+    {% for a in gastosPorCategoriaVereador.index %}
+
+    '{{a}}',
+    {% endfor %}
+  ],
+    title: {
+      text: null
+    },
+
+    labels: {
+      style:
+              {
+                color: 'gray',
+                fontSize:'14px',
+                fontWeight: 'bold'
+              },
+            },
+
+
+
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: 'Valor gasto',
+      align: 'high',
+      style:
+              {
+                color: 'gray',
+                fontSize:'19px',
+                //fontWeight: 'bold'
+              },
+    },
+    labels: {
+      overflow: 'justify',
+        style:
+                {
+                  color: 'gray',
+                  fontSize:'13px',
+                  //fontWeight: 'bold'
+                },
+
+    }
+  },
+  tooltip: {
+    shared: true,
+    valuePrefix: 'R$ ',
+    valueSuffix: ',00',
+    backgroundColor: 'rgba(0, 0, 0, 1)',
+    style: {
+             color: '#CCCCCC',
+             fontSize: '14px',
+         }
+  },
+  plotOptions: {
+    bar: {
+      dataLabels: {
+        enabled: true,
+        color: 'white',
+        format: 'R$ {point.y:,.0f},00',
+        style: {
+          fontSize: '14px',
+        }
+      },
+
+      borderWidth: 0,
+
+    },
+    series: {
+      stacking: 'normal',
+      pointWidth: 30,
+
+    }
+
+  },
+
+  credits: {
+    enabled: false
+  },
+  series: [
+
+
+
+  {
+  name: '<span style="color:#ff657f; font-size:14px">{{vereadorPretty}}</span>',
+  data: [
+    {% for a in gastosPorCategoriaVereador %}
+
+    {{a}},
+    {% endfor %},
+
+  ],
+  lineColor:'#FF657F',
+  color: '#FF657F'
+  },
+
+  {
+  name: '<span style="color:#00AEAA; font-size:14px">Média geral</span>',
+  data: [
+    {% for a in mediaGastosPorCategoria %}
+
+    {{a}},
+    {% endfor %},
+
+  ],
+  lineColor:'#00AEAA',
+  color: '#00AEAA'
+  },
+
+
+]
+});
+
+</script>
+
+{% endblock %}
